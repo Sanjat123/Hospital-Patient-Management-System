@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Patient Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1><i class="fas fa-hospital-alt"></i> Hospital Patient Management</h1>
+            <p>Efficiently manage patient records and prioritize care</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="sidebar">
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" onclick="showSection('dashboard-section')">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="showSection('add-section')">
+                            <i class="fas fa-user-plus"></i> Add Patient
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="showSection('display-section')">
+                            <i class="fas fa-users"></i> View Patients
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="showSection('search-section')">
+                            <i class="fas fa-search"></i> Search Patient
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="showSection('update-section')">
+                            <i class="fas fa-edit"></i> Update Patient
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" onclick="showSection('delete-section')">
+                            <i class="fas fa-user-minus"></i> Discharge Patient
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="content-area">
+                <!-- Dashboard Section -->
+                <div id="dashboard-section" class="section">
+                    <h2 class="section-title"><i class="fas fa-tachometer-alt"></i> Dashboard Overview</h2>
+                    
+                    <div class="stats-container">
+                        <div class="stat-card">
+                            <div class="stat-icon emergency">
+                                <i class="fas fa-ambulance"></i>
+                            </div>
+                            <div>
+                                <div class="stat-value" id="emergency-count">0</div>
+                                <div class="stat-label">Emergency Cases</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon serious">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div>
+                                <div class="stat-value" id="serious-count">0</div>
+                                <div class="stat-label">Serious Cases</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon normal">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                            <div>
+                                <div class="stat-value" id="normal-count">0</div>
+                                <div class="stat-label">Normal Cases</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3 class="section-title"><i class="fas fa-list"></i> Recent Patients</h3>
+                    <div id="recent-patients" class="patient-list"></div>
+                </div>
+                
+                <!-- Add Patient Section -->
+                <div id="add-section" class="section hidden">
+                    <h2 class="section-title"><i class="fas fa-user-plus"></i> Add New Patient</h2>
+                    
+                    <div class="form-group">
+                        <label for="add-id" class="form-label">Patient ID</label>
+                        <input type="number" id="add-id" class="form-control" placeholder="Enter patient ID">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="add-name" class="form-label">Full Name</label>
+                        <input type="text" id="add-name" class="form-control" placeholder="Enter patient name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="add-age" class="form-label">Age</label>
+                        <input type="number" id="add-age" class="form-control" placeholder="Enter patient age">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="add-disease" class="form-label">Disease/Condition</label>
+                        <input type="text" id="add-disease" class="form-control" placeholder="Enter disease or condition">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="add-priority" class="form-label">Priority Level</label>
+                        <select id="add-priority" class="form-control">
+                            <option value="1">Emergency (Immediate attention required)</option>
+                            <option value="2">Serious (Urgent but not life-threatening)</option>
+                            <option value="3">Normal (Routine care)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="addPatient()">
+                            <i class="fas fa-save"></i> Save Patient
+                        </button>
+                    </div>
+                    
+                    <div id="add-alert" class="alert hidden"></div>
+                </div>
+                
+                <!-- Display Patients Section -->
+                <div id="display-section" class="section hidden">
+                    <h2 class="section-title"><i class="fas fa-users"></i> Patient Records</h2>
+                    <div id="patient-list" class="patient-list"></div>
+                </div>
+                
+                <!-- Search Patient Section -->
+                <div id="search-section" class="section hidden">
+                    <h2 class="section-title"><i class="fas fa-search"></i> Find Patient</h2>
+                    
+                    <div class="form-group">
+                        <label for="search-id" class="form-label">Patient ID</label>
+                        <input type="number" id="search-id" class="form-control" placeholder="Enter patient ID to search">
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="searchPatient()">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                    
+                    <div id="search-result" class="patient-list"></div>
+                    <div id="search-alert" class="alert hidden"></div>
+                </div>
+                
+                <!-- Update Patient Section -->
+                <div id="update-section" class="section hidden">
+                    <h2 class="section-title"><i class="fas fa-edit"></i> Update Patient Record</h2>
+                    
+                    <div class="form-group">
+                        <label for="update-id" class="form-label">Patient ID</label>
+                        <input type="number" id="update-id" class="form-control" placeholder="Enter patient ID to update">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="update-name" class="form-label">New Name</label>
+                        <input type="text" id="update-name" class="form-control" placeholder="Enter new name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="update-age" class="form-label">New Age</label>
+                        <input type="number" id="update-age" class="form-control" placeholder="Enter new age">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="update-disease" class="form-label">New Disease/Condition</label>
+                        <input type="text" id="update-disease" class="form-control" placeholder="Enter new disease">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="update-priority" class="form-label">New Priority Level</label>
+                        <select id="update-priority" class="form-control">
+                            <option value="">-- Keep current priority --</option>
+                            <option value="1">Emergency (Immediate attention required)</option>
+                            <option value="2">Serious (Urgent but not life-threatening)</option>
+                            <option value="3">Normal (Routine care)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="updatePatient()">
+                            <i class="fas fa-save"></i> Update Record
+                        </button>
+                    </div>
+                    
+                    <div id="update-alert" class="alert hidden"></div>
+                </div>
+                
+                <!-- Delete Patient Section -->
+                <div id="delete-section" class="section hidden">
+                    <h2 class="section-title"><i class="fas fa-user-minus"></i> Discharge Patient</h2>
+                    
+                    <div class="form-group">
+                        <label for="delete-id" class="form-label">Patient ID</label>
+                        <input type="number" id="delete-id" class="form-control" placeholder="Enter patient ID to discharge">
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-danger" onclick="deletePatient()">
+                            <i class="fas fa-check-circle"></i> Confirm Discharge
+                        </button>
+                    </div>
+                    
+                    <div id="delete-alert" class="alert hidden"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
