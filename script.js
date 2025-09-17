@@ -1,4 +1,4 @@
-// Simulating the C program's data structure and functions in JavaScript
+
 let head = null;
 
 class Patient {
@@ -409,4 +409,5 @@ function showSection(sectionId) {
 window.onload = function() {
     initializeSampleData();
     showSection('dashboard-section');
+
 };
