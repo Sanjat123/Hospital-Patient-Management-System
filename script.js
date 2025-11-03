@@ -405,9 +405,9 @@ function showSection(sectionId) {
     });
 }
 
-// Initialize the application
 window.onload = function() {
     initializeSampleData();
     showSection('dashboard-section');
 
 };
+
